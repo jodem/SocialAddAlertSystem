@@ -2,6 +2,7 @@ package fr.softquipeut.pocvertx.channel.repository;
 
 import fr.softquipeut.pocvertx.channel.business.Channel;
 import fr.softquipeut.pocvertx.channel.business.Channels;
+import org.vertx.java.core.Vertx;
 
 /**
  *
@@ -9,5 +10,5 @@ import fr.softquipeut.pocvertx.channel.business.Channels;
  */
 public interface ChannelRepository {
       public Channels getAll();
-      public Channel get(String ID);
+      public Channel get(String ID);      
 }

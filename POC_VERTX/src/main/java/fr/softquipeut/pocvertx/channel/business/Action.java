@@ -11,6 +11,7 @@ public class Action {
     private String url;
     private String description;
     public static final Action LIST_CHANNEL = new Action("api/channel/", "List the availlable channels");
+    
 
     public Action(String url, String description) {
         this.url = url;

@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableList.Builder;
 import fr.softquipeut.pocvertx.channel.business.Channel;
 import fr.softquipeut.pocvertx.channel.business.Channels;
 import fr.softquipeut.pocvertx.util.URLBuilder;
+import org.vertx.java.core.Vertx;
+
 
 /**
  *

@@ -11,21 +11,24 @@ public class Channel {
 
     private final String id;
     private final String name;
-    private long followers;
+    private final int followers;
 
-    public Channel(String id, String name) {
+    public Channel(String id, String name, int followers) {
         this.id = Preconditions.checkNotNull(id);
         this.name = Preconditions.checkNotNull(name);
+        this.followers = followers;
+    }
+    
+    public Channel(String id, String name){
+        this(id, name, 0);
+        
     }
 
-    public long getFollowers() {
+    public int getFollowers() {
         return followers;
     }
 
-    public void setFollowers(long followers) {
-        this.followers = followers;
-    }
-
+   
     public String getId() {
         return id;
     }
