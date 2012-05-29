@@ -1,0 +1,2 @@
+REM creer le module saas d'abord
+vertx run saas -instances 4

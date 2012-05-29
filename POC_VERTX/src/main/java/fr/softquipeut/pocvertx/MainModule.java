@@ -41,7 +41,7 @@ public class MainModule extends Verticle {
     
     private void init(){
         channelRepo = new BasicChannelRepository(vertx);   
-        channelResource = new ChannelResource(channelRepo);
+        channelResource = new ChannelResource(channelRepo, vertx);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class MainModule extends Verticle {
         rm.get("/api/", rootResource.getRoot());
         rm.get("/api/channel/", channelResource.getListChannelHandler());
         rm.get("/api/channel/:id", channelResource.getOneChannelHandler());
-        rm.get("/api/channel/:id/register/",channelResource.subscribe(vertx));             
-        rm.get("/api/channel/:id/alert/", channelResource.alert(vertx));
+        rm.get("/api/channel/:id/register/",channelResource.subscribe());             
+        rm.get("/api/channel/:id/alert/", channelResource.alert());
 
         vertx.createHttpServer().requestHandler(rm).listen(80);
 

@@ -22,12 +22,15 @@ public final class ChannelResource {
     private final ChannelRepository channelRepo;
     private final static String ID_PARAM = "id";
     private final Logger logger;
-    
+    private final ClimaxDetector climaxDetector;
+    private final Vertx vertx;
 
-    public ChannelResource(ChannelRepository channelRepo) {
-        this.channelRepo = channelRepo;        
+    public ChannelResource(ChannelRepository channelRepo, Vertx vertx) {
+        this.channelRepo = channelRepo;
         logger = LoggerFactory.getLogger(this.getClass());
-        
+        climaxDetector = new ClimaxDetector(vertx);
+        this.vertx = vertx;
+
     }
 
     public Handler<HttpServerRequest> getListChannelHandler() {
@@ -55,7 +58,7 @@ public final class ChannelResource {
         };
     }
 
-    public Handler<HttpServerRequest> subscribe(final Vertx vertx) {
+    public Handler<HttpServerRequest> subscribe() {
         return new HtmlResponseHandler() {
 
             @Override
@@ -77,21 +80,20 @@ public final class ChannelResource {
         };
     }
 
-    public Handler<HttpServerRequest> alert(final Vertx vertx) {
+    public Handler<HttpServerRequest> alert() {
         return new JsonResponseHandler() {
 
             @Override
             public void handleRequest(final HttpServerRequest request) {
+                
+                
 
                 final String channelId = request.params().get("id");
                 Channel requestChannel = channelRepo.get(channelId); // ensure the channel exists                
-                Set<String> channelSet = vertx.sharedData().getSet(requestChannel.getId());                
-                int followers = channelSet.size();
-                for (String subscriptionId : channelSet) {
-                    vertx.eventBus().send(subscriptionId, "done !");                    
-                }
-                channelSet.clear();
-                request.response.end("{\"response\" : \"sent to " + followers +" user(s)\"}");
+                
+                climaxDetector.alertRecieved(requestChannel);                
+                
+                request.response.end("{\"response\" : \"alert recieved\"}");
             }
         };
     }
